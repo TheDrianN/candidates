@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model TypeCandidate {
+  id          Int      @id @default(autoincrement())
+  name_type   String   @db.VarChar(255)
+  description String?  @db.Text
+  type        String   @db.VarChar(2)
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @updatedAt @db.Timestamp(0)
+
+  candidates  Candidate[]
+}
+
+model GroupCandidates {
+  id           Int      @id @default(autoincrement())
+  sub_election_id Int   
+  number_list  String   @db.VarChar(2)
+  img          Bytes?
+  created_at   DateTime @default(now()) @db.Timestamp(0)
+  updated_at   DateTime @updatedAt @db.Timestamp(0)
+
+  candidates   Candidate[]
+}
+
+model Candidate {
+  id               Int            @id @default(autoincrement())
+  type_candidate_id Int          
+  group_candidate_id Int          
+  user_id        Int           
+  created_at       DateTime       @default(now()) @db.Timestamp(0)
+  updated_at       DateTime       @updatedAt @db.Timestamp(0)
+
+  typeCandidate    TypeCandidate  @relation(fields: [type_candidate_id], references: [id])
+  groupCandidate   GroupCandidates @relation(fields: [group_candidate_id], references: [id])
+}
