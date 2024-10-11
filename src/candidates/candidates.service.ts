@@ -69,11 +69,9 @@ export class CandidatesService extends PrismaClient implements OnModuleInit {
 
     await this.findOne(id);
 
-    const candidate = await this.candidate.update({
-      where:{id},
-      data:{
-        user_id: 2,
-      }
+    const candidate = await this.candidate.delete({
+      where:{id}
+     
     })
 
     return candidate;

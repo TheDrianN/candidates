@@ -33,4 +33,9 @@ export class GroupCandidatesController {
   remove(@Payload('id', ParseIntPipe) id: number) {
     return this.groupCandidatesService.remove(id);
   }
+
+  @MessagePattern('findAllCandidatesSubElection')
+  findAllCandidatesSubElection(@Payload('id', ParseIntPipe) id: number) {
+    return this.groupCandidatesService.findAllCandidatesSubElection(id);
+  }
 }

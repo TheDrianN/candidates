@@ -28,7 +28,7 @@ model GroupCandidates {
   id           Int      @id @default(autoincrement())
   sub_election_id Int   
   number_list  String   @db.VarChar(2)
-  img          Bytes?
+  img          String   @db.VarChar(255)
   created_at   DateTime @default(now()) @db.Timestamp(0)
   updated_at   DateTime @updatedAt @db.Timestamp(0)
 

@@ -41,7 +41,7 @@ export class GroupCandidatesService extends PrismaClient implements OnModuleInit
       // Procesar los datos para incluir solo el 'id' de los candidatos con type "Decano" o "Presidente"
     const processedData = dataGroup.map(group => {
           const decanoOrPresidente = group.candidates.find(candidate => 
-              candidate.typeCandidate.name_type === 'Decano Departamental' || candidate.typeCandidate.name_type === 'Presidente'
+              candidate.typeCandidate.name_type === 'DECANO DEPARTAMENTAL' || candidate.typeCandidate.name_type === 'PRESIDENTE'
           );
          
           return {
@@ -67,7 +67,16 @@ export class GroupCandidatesService extends PrismaClient implements OnModuleInit
 
   async findOne(id: number) {
     const groupCandidate = await this.groupCandidates.findFirst({
-      where:{id}
+      where:{id},
+      include:{
+        candidates:{
+          include:{
+            typeCandidate:{
+
+            }
+          }
+        }
+      }
     });
 
     if(!groupCandidate){
@@ -77,7 +86,10 @@ export class GroupCandidatesService extends PrismaClient implements OnModuleInit
       });
     }
 
-    return groupCandidate
+    return {
+      data:groupCandidate,
+      status:HttpStatus.ACCEPTED
+    }
   }
 
   async update(id: number, updateGroupCandidateDto: UpdateGroupCandidateDto) {
@@ -102,5 +114,34 @@ export class GroupCandidatesService extends PrismaClient implements OnModuleInit
     })
 
     return groupCandidate;
+  }
+
+  async findAllCandidatesSubElection(subelection_id: number) {
+    const groupCandidate = await this.groupCandidates.findMany({
+      where: {
+        sub_election_id: subelection_id,
+        candidates: {
+          some: {
+            typeCandidate: {
+              name_type: {
+                in: ['DECANO DEPARTAMENTAL', 'PRESIDENTE'],
+              },
+            },
+          },
+        },
+      },
+      include: {
+        candidates: {
+          include: {
+            typeCandidate: true,
+          },
+        },
+      },
+    });
+  
+    return {
+      status:HttpStatus.ACCEPTED,
+      data:groupCandidate
+    };
   }
 }

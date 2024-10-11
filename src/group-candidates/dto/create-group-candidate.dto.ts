@@ -6,6 +6,7 @@ export class CreateGroupCandidateDto {
     public sub_election_id: number;
     @IsString()
     public number_list: string;
-    
-    public img: Buffer;
+
+    @IsString()
+    public img: string;
 }
