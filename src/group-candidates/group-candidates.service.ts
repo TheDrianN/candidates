@@ -106,14 +106,14 @@ export class GroupCandidatesService extends PrismaClient implements OnModuleInit
   async remove(id: number) {
     await this.findOne(id);
 
-    const groupCandidate = await this.groupCandidates.update({
-      where:{id},
-      data:{
-        number_list:'2'
-      }
+    const groupCandidate = await this.groupCandidates.delete({
+      where:{id}
     })
 
-    return groupCandidate;
+    return {
+      data:groupCandidate,
+      status: HttpStatus.ACCEPTED
+    };
   }
 
   async findAllCandidatesSubElection(subelection_id: number) {

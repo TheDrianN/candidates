@@ -87,14 +87,14 @@ export class TypeCandidatesService extends PrismaClient implements OnModuleInit 
   async remove(id: number) {
     await this.findOne(id);
 
-    const typeCandidate = await this.typeCandidate.update({
-      where:{id},
-      data:{
-        description:'2'
-      }
+    const typeCandidate = await this.typeCandidate.delete({
+      where:{id}
     })
 
-    return typeCandidate;
+    return {
+      data:typeCandidate,
+      status: HttpStatus.ACCEPTED
+    };
   }
 
   async findAllTypeCandidates(type:string){
