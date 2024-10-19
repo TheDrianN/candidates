@@ -30,9 +30,9 @@ export class TypeCandidatesService extends PrismaClient implements OnModuleInit 
     
    // Mapa de valores de "type"
     const typeMapping = {
-      'CD': 'Cargo para el Consejo Departamental',
-      'CA': 'Cargo para Asamblea Departamental',
-      'CC': 'Cargo para Junta Directiva de los Capítulos',
+      'CD': 'CARGO PARA EL CONSEJO DEPARTAMENTAL',
+      'CA': 'CARGO PARA ASAMBLEA DEPARTAMENTAL',
+      'CC': 'CARGO PARA JUNTA DIRECTIVA DE LOS CAPÍTULOS',
     };
 
 
