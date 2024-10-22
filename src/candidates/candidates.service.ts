@@ -78,7 +78,7 @@ export class CandidatesService extends PrismaClient implements OnModuleInit {
   }
 
   async validationUser(id:number){
-    const user = this.candidate.findFirst({
+    const user = await this.candidate.findFirst({
       where:{
         user_id:id,
       }
