@@ -38,4 +38,9 @@ export class GroupCandidatesController {
   findAllCandidatesSubElection(@Payload('id', ParseIntPipe) id: number) {
     return this.groupCandidatesService.findAllCandidatesSubElection(id);
   }
+
+  @MessagePattern('validationSubElection')
+  validationSubElection(@Payload('id',ParseIntPipe) id: number) {
+    return this.groupCandidatesService.validationSubElection(id);
+  }
 }

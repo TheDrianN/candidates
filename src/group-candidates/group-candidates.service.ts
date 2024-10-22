@@ -144,4 +144,24 @@ export class GroupCandidatesService extends PrismaClient implements OnModuleInit
       data:groupCandidate
     };
   }
+
+  async validationSubElection(id:number){
+    const subelection = await this.groupCandidates.findFirst({
+      where:{
+        sub_election_id:id,
+      }
+    });
+
+    if (subelection) {
+      throw new RpcException({
+        message: 'No se puede eliminar la Sub Eleccion. Está asociado a otros datos.',
+        status: HttpStatus.CONFLICT,
+      })
+    }
+
+    return {
+      status: HttpStatus.OK,
+      message: 'La Sub Elección no está asociado a ningún otro dato.',
+    };
+  }
 }
