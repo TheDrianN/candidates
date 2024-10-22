@@ -33,4 +33,9 @@ export class CandidatesController {
   remove(@Payload('id', ParseIntPipe) id: number) {
     return this.candidatesService.remove(id);
   }
+
+  @MessagePattern('validationUser')
+  validationUser(@Payload('id',ParseIntPipe) id: number) {
+    return this.candidatesService.validationUser(id);
+  }
 }

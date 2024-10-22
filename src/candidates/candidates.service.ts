@@ -76,4 +76,24 @@ export class CandidatesService extends PrismaClient implements OnModuleInit {
 
     return candidate;
   }
+
+  async validationUser(id:number){
+    const user = this.candidate.findFirst({
+      where:{
+        user_id:id,
+      }
+    });
+
+    if (user) {
+      return {
+        status: HttpStatus.CONFLICT,
+        message: 'No se puede eliminar el usuario. Está asociado a otros datos.',
+      };
+    }
+
+    return {
+      status: HttpStatus.OK,
+      message: 'El usuario no está asociado a ningún otro dato.',
+    };
+  }
 }
