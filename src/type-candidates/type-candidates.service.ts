@@ -87,13 +87,27 @@ export class TypeCandidatesService extends PrismaClient implements OnModuleInit 
   async remove(id: number) {
     await this.findOne(id);
 
+    const validationType = await this.candidate.findFirst({
+      where:{
+        type_candidate_id: id
+      }
+    });
+
+    if (validationType) {
+      throw new RpcException({
+        message: 'No se puede eliminar el Rol de candidato. Está asociado a otros datos.',
+        status: HttpStatus.CONFLICT,
+      })
+    }
+
     const typeCandidate = await this.typeCandidate.delete({
       where:{id}
     })
 
     return {
       data:typeCandidate,
-      status: HttpStatus.ACCEPTED
+      message: 'Rol de candidato eliminado correctamente',
+      status: HttpStatus.OK
     };
   }
 
